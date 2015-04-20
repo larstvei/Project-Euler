@@ -10,6 +10,10 @@ body {
     position: relative;
 }
 
+pre.src {
+    overflow: auto;
+}
+
 #table-of-contents {
     /*     text-align: right; */
     /* overflow: scroll; */
