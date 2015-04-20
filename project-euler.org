@@ -28,11 +28,27 @@
 
 * [[https://projecteuler.net/problem%3D1][Problem 1: Multiples of 3 and 5]]
 
-If we list all the natural numbers below 10 that are multiples of 3 or
-5, we get 3, 5, 6 and 9. The sum of these multiples is 23.
+  If we list all the natural numbers below 10 that are multiples of 3 or 5,
+  we get 3, 5, 6 and 9. The sum of these multiples is 23.
 
-Find the sum of all the multiples of 3 or 5 below 1000.
+  Find the sum of all the multiples of 3 or 5 below 1000.
 
+** Solution
+
+   This is easily solved in almost any programming language; we'll do it in
+   Clojure. We start by generating a list of the 1000 first natural
+   numbers, filter the list so that it only contains multiples of 3 and 5,
+   and finally add them all together.
+
+   #+BEGIN_SRC clojure :exports both
+     (->> (range 1000)
+          (filter #(or (zero? (mod % 3))
+                       (zero? (mod % 5))))
+          (apply +))
+   #+END_SRC
+
+   #+RESULTS:
+   : 233168
 
 * COMMENT [[https://projecteuler.net/problem%3D2][Problem 2: Even Fibonacci numbers]]
 
