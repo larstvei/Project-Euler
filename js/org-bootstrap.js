@@ -2,7 +2,7 @@ function panelDiv (col) {
     return "<div class=\"panel-heading\""
         + "data-toggle=\"collapse\""
         + "data-target=\"#col" + col
-        + "\">Løsningsforslag</div>";
+        + "\">Solution</div>";
 }
 
 function panelCollapse(col) {
@@ -20,7 +20,7 @@ $( document ).ready(function() {
     // The content (and postamble) should be in a container.
     $('#content, #postamble').wrapAll("<div class='container'></div>");
 
-    // 
+    //
     $('#table-of-contents, .outline-2').wrapAll("<div class='row'></div>");
     $('#table-of-contents').wrap("<div class='col-md-3'></div>");
     $('.outline-2').wrapAll("<div class='col-md-9'></div>");
@@ -45,4 +45,14 @@ $( document ).ready(function() {
     });
 
     table = $('table').first().addClass("table").parent().addClass("panel");
+
+    $('h3:contains(Solution)').each(function (i) {
+        parent = $(this).parent()
+        parent.addClass("panel panel-danger");
+        h3 = parent.find('h3');
+        rest = h3.nextAll();
+        h3.replaceWith(panelDiv(i));
+        rest.wrapAll(panelCollapse(i));
+    });
+
 });
