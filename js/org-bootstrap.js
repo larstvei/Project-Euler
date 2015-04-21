@@ -46,13 +46,13 @@ $( document ).ready(function() {
 
     table = $('table').first().addClass("table").parent().addClass("panel");
 
-    $('h3:contains(Solution)').each(function (i) {
-        parent = $(this).parent()
-        parent.addClass("panel panel-danger");
-        h3 = parent.find('h3');
-        rest = h3.nextAll();
-        h3.replaceWith(panelDiv(i));
-        rest.wrapAll(panelCollapse(i));
-    });
+    // $('h3:contains(Solution)').each(function (i) {
+    //     parent = $(this).parent()
+    //     parent.addClass("panel panel-danger");
+    //     h3 = parent.find('h3');
+    //     rest = h3.nextAll();
+    //     h3.replaceWith(panelDiv(i));
+    //     rest.wrapAll(panelCollapse(i));
+    // });
 
 });
