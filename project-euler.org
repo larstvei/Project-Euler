@@ -42,14 +42,15 @@
    numbers, filter the list so that it only contains multiples of 3 and 5,
    and finally add them all together.
 
-   #+BEGIN_SRC clojure :exports both
-     (->> (range 1000)
-          (filter #(or (zero? (mod % 3))
-                       (zero? (mod % 5))))
-          (apply +))
+   #+BEGIN_SRC clojure
+   (time (->> (range 1000)
+              (filter #(or (zero? (mod % 3))
+                           (zero? (mod % 5))))
+              (apply +)))
    #+END_SRC
 
    #+RESULTS:
+   : "Elapsed time: 1.077353 msecs"
    : 233168
 
 * COMMENT [[https://projecteuler.net/problem%3D2][Problem 2: Even Fibonacci numbers]]
