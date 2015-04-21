@@ -9,6 +9,8 @@
 #+HTML_HEAD: <script type="text/javascript" src="js/jquery.tocify.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="js/bootstrap.min.js"></script>
 #+HTML_HEAD: <script type="text/javascript" src="js/org-bootstrap.js"></script>
+#+PROPERTY: header-args :exports both :results pp
+#+BIND: org-export-babel-evaluate nil
 
 * Introduction
 
