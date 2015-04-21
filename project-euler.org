@@ -104,7 +104,7 @@
    \end{center}
 
    These numbers are retrievable by dividing with 2 as long as the number is
-   even, then three for however long the result is divisible by 3, and so
+   even, then 3 for however long the result is divisible by 3, and so
    on. Most numbers won't divide, so we'll quickly discard them.
 
    This recursive function gives us the larges prime factor of a given
@@ -267,7 +267,6 @@
    #+RESULTS:
    : "Elapsed time: 0.411908 msecs"
    : 25164150
-
 
 * COMMENT [[https://projecteuler.net/problem%3D7][Problem 7: 10001st prime]]
 
