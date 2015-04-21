@@ -65,11 +65,28 @@
   exceed four million, find the sum of the even-valued terms.
 
 * COMMENT [[https://projecteuler.net/problem%3D3][Problem 3: Largest prime factor]]
+** Solution
 
+   The first expression generates all Fibonacci numbers given a vector
+   containing ~[1 2]~. The function given to iterate will produce vectors on
+   the form ~([1 2] [2 3] [3 5] ...)~. We grab the first element of each
+   vector (giving the Fibonacci sequence) and filter the sequence so that it
+   only contains even numbers. By using ~take-while~ we terminate the
+   sequence when a $n$ is 4000000 or higher, and finally we take the sum.
 
 The prime factors of 13195 are 5, 7, 13 and 29.
+   #+BEGIN_SRC clojure
+   (time (->> (iterate (fn [[a b]] [b (+ a b)]) [1 2])
+              (map first)
+              (filter even?)
+              (take-while #(< % 4000000))
+              (apply +)))
+   #+END_SRC
 
 What is the largest prime factor of the number 600851475143 ?
+   #+RESULTS:
+   : "Elapsed time: 0.314621 msecs"
+   : 4613732
 
 * COMMENT [[https://projecteuler.net/problem%3D4][Problem 4: Largest palindrome product]]
 
