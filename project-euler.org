@@ -234,6 +234,41 @@
    This is a 8676 digit integer, that is divisible by every integer from 1
    to 20000, calculated in two seconds.
 
+* [[https://projecteuler.net/problem%3D6][Problem 6: Sum square difference]]
+
+
+  The sum of the squares of the first ten natural numbers is,
+
+  \begin{center}
+  1^{2} + 2^{2} + ... + 10^{2} = 385
+  \end{center}
+
+  The square of the sum of the first ten natural numbers is,
+
+  \begin{center}
+  (1 + 2 + ... + 10)^{2} = 55^{2} = 3025
+  \end{center}
+
+  Hence the difference between the sum of the squares of the first ten
+  natural numbers and the square of the sum is 3025 − 385 = 2640.
+
+  Find the difference between the sum of the squares of the first one
+  hundred natural numbers and the square of the sum.
+
+** Solution
+
+   #+BEGIN_SRC clojure
+   (time (let [nums (range 1 101)
+               sumsqr (apply + (map #(* % %) nums))
+               sqrsum (#(* % %) (apply + nums))]
+           (- sqrsum sumsqr)))
+   #+END_SRC
+
+   #+RESULTS:
+   : "Elapsed time: 0.411908 msecs"
+   : 25164150
+
+
 * COMMENT [[https://projecteuler.net/problem%3D7][Problem 7: 10001st prime]]
 
 
