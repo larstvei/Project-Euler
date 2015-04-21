@@ -73,7 +73,6 @@
    only contains even numbers. By using ~take-while~ we terminate the
    sequence when a $n$ is 4000000 or higher, and finally we take the sum.
 
-The prime factors of 13195 are 5, 7, 13 and 29.
    #+BEGIN_SRC clojure
    (time (->> (iterate (fn [[a b]] [b (+ a b)]) [1 2])
               (map first)
@@ -127,26 +126,41 @@ The prime factors of 13195 are 5, 7, 13 and 29.
    : "Elapsed time: 1.854709 msecs"
    : 6857
 
-
-What is the smallest positive number that is evenly divisible by all of
-the numbers from 1 to 20?
-
-* COMMENT [[https://projecteuler.net/problem%3D6][Problem 6: Sum square difference]]
+* [[https://projecteuler.net/problem%3D4][Problem 4: Largest palindrome product]]
 
 
-The sum of the squares of the first ten natural numbers is,
+  A palindromic number reads the same both ways. The largest palindrome made
+  from the product of two 2-digit numbers is 9009 = 91 × 99.
 
-#+BEGIN_HTML
-  <div style="text-align:center">
-#+END_HTML
+  Find the largest palindrome made from the product of two 3-digit numbers.
 
-1^{2} + 2^{2} + ... + 10^{2} = 385
+** Solution
 
-The square of the sum of the first ten natural numbers is,
+   First, we need to be able to tell if a number is a palindrome or not.
 
-#+BEGIN_HTML
-  <div style="text-align:center">
-#+END_HTML
+   #+BEGIN_SRC clojure :exports source
+   (defn palindrome? [n]
+     (let [s (seq (str n))]
+       (= s (reverse s))))
+   #+END_SRC
+
+   Now we just need to brute-force. Using ~for~, a sequence of products are
+   generated, this sequence is then sorted (in descending order). Then we
+   can pull out the first palindrome. One would think it would be faster to
+   maximize than to sort the entire collection, but in Clojure it turns out
+   not to be the case.
+
+   #+BEGIN_SRC clojure :exports both :results pp
+   (time (->> (for [n (range 999 100 -1)
+                    m (range n   100 -1)] (* m n))
+              (sort #(- %2 %))
+              (filter palindrome?)
+              (first)))
+   #+END_SRC
+
+   #+RESULTS:
+   : "Elapsed time: 258.019276 msecs"
+   : 906609
 
 (1 + 2 + ... + 10)^{2} = 55^{2} = 3025
 
