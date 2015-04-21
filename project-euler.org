@@ -64,7 +64,6 @@
   By considering the terms in the Fibonacci sequence whose values do not
   exceed four million, find the sum of the even-valued terms.
 
-* COMMENT [[https://projecteuler.net/problem%3D3][Problem 3: Largest prime factor]]
 ** Solution
 
    The first expression generates all Fibonacci numbers given a vector
@@ -83,25 +82,51 @@ The prime factors of 13195 are 5, 7, 13 and 29.
               (apply +)))
    #+END_SRC
 
-What is the largest prime factor of the number 600851475143 ?
    #+RESULTS:
    : "Elapsed time: 0.314621 msecs"
    : 4613732
 
-* COMMENT [[https://projecteuler.net/problem%3D4][Problem 4: Largest palindrome product]]
+* [[https://projecteuler.net/problem%3D3][Problem 3: Largest prime factor]]
 
+  The prime factors of 13195 are 5, 7, 13 and 29.
 
-A palindromic number reads the same both ways. The largest palindrome
-made from the product of two 2-digit numbers is 9009 = 91 × 99.
+  What is the largest prime factor of the number 600851475143?
 
-Find the largest palindrome made from the product of two 3-digit
-numbers.
+** Solution
 
-* COMMENT [[https://projecteuler.net/problem%3D5][Problem 5: Smallest multiple]]
+   From the problem description we can see that
 
+   \begin{center}
+   \[
+   \frac{13195}{13195} = \frac{13195}{5 \cdot 2639} =
+   \frac{13195}{5 \cdot 7 \cdot 377} =
+   \frac{13195}{5 \cdot 7 \cdot 13 \cdot 29} = 1
+   \]
+   \end{center}
 
-2520 is the smallest number that can be divided by each of the numbers
-from 1 to 10 without any remainder.
+   These numbers are retrievable by dividing with 2 as long as the number is
+   even, then three for however long the result is divisible by 3, and so
+   on. Most numbers won't divide, so we'll quickly discard them.
+
+   This recursive function gives us the larges prime factor of a given
+   number ~n~. If we were to do recursive calls to ~largest-prime-factor~ we
+   would eat up the stack space, but we avoid this by using the keyword
+   ~recur~ (which results in a loop).
+
+   #+BEGIN_SRC clojure :exports both :results pp
+   (defn largest-prime-factor
+     ([n] (largest-prime-factor n 2))
+     ([n i] (cond (= n i) n
+                  (zero? (mod n i)) (recur (/ n i) i)
+                  :else (recur n (inc i)))))
+
+   (time (largest-prime-factor 600851475143))
+   #+END_SRC
+
+   #+RESULTS:
+   : "Elapsed time: 1.854709 msecs"
+   : 6857
+
 
 What is the smallest positive number that is evenly divisible by all of
 the numbers from 1 to 20?
