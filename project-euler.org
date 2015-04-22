@@ -297,13 +297,69 @@
    #+RESULTS:
    : 25164150
 
-* COMMENT [[https://projecteuler.net/problem%3D7][Problem 7: 10001st prime]]
+* [[https://projecteuler.net/problem%3D7][Problem 7: 10001st prime]]
 
 
-By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can
-see that the 6th prime is 13.
+  By listing the first six prime numbers: 2, 3, 5, 7, 11, and 13, we can
+  see that the 6th prime is 13.
 
-What is the 10 001st prime number?
+  What is the 10 001st prime number?
+
+** Solution
+
+   A sieve function takes a sequence of primes and an integer, and checks
+   whether or not it is divisible by any of the primes. If not, let the
+   primes remain untouched, else add it to the sequence of primes.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn sieve [primes n]
+     (if (some zero? (map (partial mod n) primes))
+       primes
+       (conj primes n)))
+   #+END_SRC
+
+   A neat function Clojure's library is ~reductions~, which gives you each
+   step of an reduction. So ~(reductions conj [] [1 2 3])~ evaluates to
+   ~([] [1] [1 2] [1 2 3])~. So by looking at each reduction, and looking at
+   the last element in the sequence, we see the largest prime calculated so
+   far. Making this reduction sequence distinct allows us to search for the
+   nth prime.
+
+   #+BEGIN_SRC clojure :exports source
+   (->> (iterate inc 2)
+        (reductions sieve [])
+        (distinct)
+        (map last)
+        (#(nth % 10001))
+        time)
+   #+END_SRC
+
+   Sadly, but not unexpectedly, it's quite slow.
+
+   #+BEGIN_EXAMPLE
+   "Elapsed time: 11502.008009 msecs"
+   104743
+   #+END_EXAMPLE
+
+   Let's do better. By looking at the all the numbers from 2 to
+   $\lceil\sqrt{n}\rceil$, we can determine if a number is prime or not. We
+   define a ~prime?~ predicate that does just this, and find the 10001st
+   prime.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn prime? [n]
+     (->> (range 2 (-> n Math/sqrt int inc))
+          (map (partial mod n))
+          (some zero?)
+          (not)))
+
+   (->> (iterate inc 2) (filter prime?) (#(nth % 10000)) time)
+   #+END_SRC
+
+   #+BEGIN_EXAMPLE
+   "Elapsed time: 1113.549649 msecs"
+   104743
+   #+END_EXAMPLE
 
 * COMMENT [[https://projecteuler.net/problem%3D8][Problem 8: Largest product in a series]]
 
