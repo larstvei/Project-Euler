@@ -285,15 +285,16 @@
 
 ** Solution
 
+   This is quite straight forward to brute force.
+
    #+BEGIN_SRC clojure
-   (time (let [nums (range 1 101)
-               sumsqr (apply + (map #(* % %) nums))
-               sqrsum (#(* % %) (apply + nums))]
-           (- sqrsum sumsqr)))
+   (let [nums (range 1 101)
+         sumsqr (apply + (map #(* % %) nums))
+         sqrsum (#(* % %) (apply + nums))]
+     (- sqrsum sumsqr))
    #+END_SRC
 
    #+RESULTS:
-   : "Elapsed time: 0.411908 msecs"
    : 25164150
 
 * COMMENT [[https://projecteuler.net/problem%3D7][Problem 7: 10001st prime]]
