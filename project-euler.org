@@ -133,18 +133,21 @@
    would eat up the stack space, but we avoid this by using the keyword
    ~recur~ (which results in a loop).
 
-   #+BEGIN_SRC clojure :exports both :results pp
+   #+BEGIN_SRC clojure :exports source
    (defn largest-prime-factor
      ([n] (largest-prime-factor n 2))
      ([n i] (cond (= n i) n
                   (zero? (mod n i)) (recur (/ n i) i)
                   :else (recur n (inc i)))))
+   #+END_SRC
 
-   (time (largest-prime-factor 600851475143))
+   Now we apply it to 600851475143.
+
+   #+BEGIN_SRC clojure
+   (largest-prime-factor 600851475143)
    #+END_SRC
 
    #+RESULTS:
-   : "Elapsed time: 1.854709 msecs"
    : 6857
 
 * [[https://projecteuler.net/problem%3D4][Problem 4: Largest palindrome product]]
