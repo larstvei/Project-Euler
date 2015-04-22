@@ -27,6 +27,30 @@
   solved. It is just as much a project in multilingual literate
   programming.
 
+** Org mode
+
+   The document is written in Emacs, using [[http://orgmode.org/][Org mode]], and it's [[http://orgmode.org/worg/org-contrib/babel/][Babel]] feature
+   for executing and extracting source code.
+
+** Clojure
+
+   The language I'll be using the most is [[http://clojure.org/][Clojure]]. We need a ~project.clj~
+   file in order to use [[http://leiningen.org/][Leiningen]].
+
+   #+BEGIN_SRC clojure :exports source :tangle project.clj
+   (defproject project-euler "0.1.0-SNAPSHOT"
+     :description "Project Euler solutions"
+     :url ""
+     :license {:name ""
+               :url ""}
+     :dependencies [[org.clojure/clojure "1.6.0"]])
+   #+END_SRC
+
+   #+BEGIN_SRC clojure :exports source
+   (ns project-euler.core
+     (:require [clojure.core.reducers :as r]))
+   #+END_SRC
+
 * [[https://projecteuler.net/problem%3D1][Problem 1: Multiples of 3 and 5]]
 
   If we list all the natural numbers below 10 that are multiples of 3 or 5,
