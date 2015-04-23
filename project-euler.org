@@ -414,23 +414,66 @@
    #+RESULTS:
    : 23514624000
 
-* COMMENT [[https://projecteuler.net/problem%3D9][Problem 9: Special Pythagorean triplet]]
+* [[https://projecteuler.net/problem%3D9][Problem 9: Special Pythagorean triplet]]
 
 
-A Pythagorean triplet is a set of three natural numbers, a < b < c, for
-which,
+  A Pythagorean triplet is a set of three natural numbers, a < b < c, for
+  which,
 
-#+BEGIN_HTML
-  <div style="text-align:center;">
-#+END_HTML
+  #+BEGIN_CENTER
+  a^{2} + b^{2} = c^{2}
+  #+END_CENTER
 
-a^{2} + b^{2} = c^{2}
+  For example, 3^{2} + 4^{2} = 9 + 16 = 25 = 5^{2}.
 
-For example, 3^{2} + 4^{2} = 9 + 16 = 25 = 5^{2}.
+  There exists exactly one Pythagorean triplet for which a + b + c = 1000.\\
+  Find the product abc.
 
-There exists exactly one Pythagorean triplet for which a + b + c =
-1000.\\
-Find the product abc.
+** Solution
+
+   A naive solution would be to loop for 0 < a < 1000, 0 < b < 1000 and 0 <
+   c < 1000, and check that the equations hold. This has a worst case of
+   testing 1000^3 = 10^9 different values for a, b and c. Looping through
+   10^9 numbers takes a little less than two minutes on my machine, so we'd
+   probably have to wait a while for an answer. By using the assumption that
+   a < b < c, we get it down to 10^8, which takes about 15 seconds to loop
+   through on my machine.
+
+   An approach like this could look like so.
+
+   #+BEGIN_SRC clojure :exports source
+   (->> (for [a (range 1 1000)
+              b (range a 1000)
+              c (range b 1000)
+              :when (and (= (+ a b c) 1000)
+                         (= (+ (* a a) (* b b)) (* c c)))]
+          (* a b c))
+        (first))
+   #+END_SRC
+
+   But we have two equations and three unknowns, so we should get by knowing
+   two of the unknowns. From the two equations we can derive that
+
+   #+BEGIN_CENTER
+   $$a + b + \sqrt{a^2 + b^2} = 1000$$
+   #+END_CENTER
+
+   This means we can loop through 1 < a < 1000 and a < b < 1000, which takes
+   us down to less than 10^6 operations, which can be looped through in less
+   than 100 milliseconds.
+
+   #+BEGIN_SRC clojure
+   (->> (for [a (range 1 1000)
+              b (range a 1000)
+              :when (= (+ a b (Math/sqrt (+ (* a a) (* b b))))
+                       1000.0)]
+          (* a b (Math/sqrt (+ (* a a) (* b b)))))
+        (first)
+        (int))
+   #+END_SRC
+
+   #+RESULTS:
+   : 31875000
 
 * COMMENT [[https://projecteuler.net/problem%3D10][Problem 10: Summation of primes]]
 
