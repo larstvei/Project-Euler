@@ -367,6 +367,27 @@
    104743
    #+END_EXAMPLE
 
+   Here we've lost the benefit of only looking at other primes. Let's remedy
+   this by writing a function that lazily generates all primes.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn primes
+     ([] (concat [2] (lazy-seq (primes 3 []))))
+     ([n seen]
+      (if (->> seen (take-while #(<= % (Math/sqrt n)))
+               (map (partial mod n)) (some zero?))
+        (recur (+ n 2) seen)
+        (->> (conj seen n) (primes (+ n 2)) (lazy-seq) (cons n)))))
+   #+END_SRC
+
+   #+BEGIN_SRC clojure :results pp
+   (-> (primes) (nth 10000) time)
+   #+END_SRC
+
+   #+RESULTS:
+   : "Elapsed time: 265.466095 msecs"
+   : 104743
+
 * [[https://projecteuler.net/problem%3D8][Problem 8: Largest product in a series]]
 
 
