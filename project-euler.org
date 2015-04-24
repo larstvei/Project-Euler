@@ -315,9 +315,13 @@
 
    #+BEGIN_SRC clojure :exports source
    (defn sieve [primes n]
-     (if (some zero? (map (partial mod n) primes))
-       primes
-       (conj primes n)))
+     (if (->> primes
+              (take-while #(<= % (Math/sqrt n)))
+              (map (partial mod n))
+              (some zero?)
+              (not))
+       (conj primes n)
+       primes))
    #+END_SRC
 
    A neat function Clojure's library is ~reductions~, which gives you each
@@ -339,8 +343,8 @@
    Sadly, but not unexpectedly, it's quite slow.
 
    #+BEGIN_EXAMPLE
-   "Elapsed time: 11502.008009 msecs"
-   104743
+   "Elapsed time: 4533.628391 msecs"
+   104009
    #+END_EXAMPLE
 
    Let's do better. By looking at the all the numbers from 2 to
