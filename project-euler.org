@@ -500,12 +500,30 @@
    #+RESULTS:
    : 31875000
 
-* COMMENT [[https://projecteuler.net/problem%3D10][Problem 10: Summation of primes]]
+* [[https://projecteuler.net/problem%3D10][Problem 10: Summation of primes]]
 
 
-The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
+  The sum of the primes below 10 is 2 + 3 + 5 + 7 = 17.
 
-Find the sum of all the primes below two million.
+  Find the sum of all the primes below two million.
+
+** Solution
+
+   Knowing that the prime can't exceed two million makes our sieve function
+   more useful, seeing that we can use ~reduce~ over the natural numbers
+   between two and two million. Leaving the ~sieve~ function untouched, we
+   can calculate the sum in about 10 seconds.
+
+   #+BEGIN_SRC clojure :exports source
+   (->> (range 3 2000000 2)
+        (reduce sieve [2])
+        (apply +))
+   #+END_SRC
+
+   #+BEGIN_EXAMPLE
+   "Elapsed time: 11168.613766 msecs"
+   142913828922
+   #+END_EXAMPLE
 
 * COMMENT [[https://projecteuler.net/problem%3D11][Problem 11: Largest product in a grid]]
 
