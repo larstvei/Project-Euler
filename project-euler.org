@@ -48,7 +48,9 @@
 
    #+BEGIN_SRC clojure :exports source
    (ns project-euler.core
-     (:require [clojure.core.reducers :as r]))
+     (:require [clojure.core.reducers :as r]
+               [clojure.string :as s]
+               [clojure.core.logic :refer :all]))
    #+END_SRC
 
 * [[https://projecteuler.net/problem%3D1][Problem 1: Multiples of 3 and 5]]
