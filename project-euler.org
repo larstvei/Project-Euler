@@ -527,6 +527,15 @@
    142913828922
    #+END_EXAMPLE
 
+   We could also use the ~primes~ function, which has pretty much the same
+   performance.
+
+   #+BEGIN_SRC clojure :exports source
+   (->> (primes)
+        (take-while #(< % 2000000))
+        (apply +))
+   #+END_SRC
+
 * COMMENT [[https://projecteuler.net/problem%3D11][Problem 11: Largest product in a grid]]
 
 
