@@ -1002,12 +1002,32 @@
    #+RESULTS:
    : 137846528820N
 
-* COMMENT [[https://projecteuler.net/problem%3D16][Problem 16: Power digit sum]]
+* [[https://projecteuler.net/problem%3D16][Problem 16: Power digit sum]]
 
 
-2^{15} = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
+  2^{15} = 32768 and the sum of its digits is 3 + 2 + 7 + 6 + 8 = 26.
 
-What is the sum of the digits of the number 2^{1000}?
+  What is the sum of the digits of the number 2^{1000}?
+
+** Solution
+
+   As far as I can tell, Clojure has no built in ~exp~ function that returns a
+   ~bigint~, so I wrote my own.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn exp [n e]
+     (if (zero? e)
+       1
+       (* n (exp n (dec e)))))
+   #+END_SRC
+
+   The easiest way I know to make a sequence out of a number is to convert it
+   to a string, which is a sequence, and getting the numeric value of each
+   character. After doing so we can simply sum the digits.
+
+   #+BEGIN_SRC clojure
+   (->> (exp 2N 1000) (str) (map #(Character/getNumericValue %)) (apply +))
+   #+END_SRC
 
 * COMMENT [[https://projecteuler.net/problem%3D17][Problem 17: Number letter counts]]
 
