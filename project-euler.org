@@ -897,6 +897,60 @@
 
   *NOTE:* Once the chain starts the terms are allowed to go above one million.
 
+** Solution
+
+   First we implement a function that give us the next number in the Collatz
+   sequence.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn collatz [n]
+     (if (even? n)
+       (/ n 2)
+       (inc (* 3 n))))
+   #+END_SRC
+
+   To get the sequence we just need to iterate ~collatz~, but stop once we've
+   reached 1 (to ensure termination).
+
+   #+BEGIN_SRC clojure
+   (defn collatz-seq [n]
+     (concat (take-while #(> % 1) (iterate collatz n)) [1]))
+   #+END_SRC
+
+   Using the functions above, we end up with a very slow solution and takes
+   about 3 minutes to run.
+
+   #+BEGIN_SRC clojure :exports source
+   (apply max-key (comp count collatz-seq) (range 1 1e6))
+   #+END_SRC
+
+   There is no reason to actually generate the sequences, so this is an obvious
+   optimization. In this problem there are a lot of duplicate function calls,
+   seeing that the function converges towards 1 (for instance will 3, 5, 6, 7
+   and 9 share the last five numbers of their Collatz sequence). So cashing
+   results should provide better performance; we can use ~memoize~ to achieve
+   this.
+
+   #+BEGIN_SRC clojure :exports source
+   (def collatz-seq-len
+     (memoize
+      (fn [n]
+        (if (= n 1)
+          1
+          (inc (collatz-seq-len (collatz n)))))))
+   #+END_SRC
+
+   Running it once takes about 5 seconds, but after everything is cashed it
+   runs in less than 2 seconds.
+
+   #+BEGIN_SRC clojure :exports source
+   (apply max-key collatz-seq-len (range 1 1e6))
+   #+END_SRC
+
+   #+BEGIN_EXAMPLE
+   837799
+   #+END_EXAMPLE
+
 * COMMENT [[https://projecteuler.net/problem%3D15][Problem 15: Lattice paths]]
 
 
