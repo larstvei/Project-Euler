@@ -706,7 +706,7 @@
 
    We need a function that can tell how many times a number divides another.
 
-   #+BEGIN_SRC clojure
+   #+BEGIN_SRC clojure :exports source
    (defn divides [n p]
      (loop [i 0 n n]
        (if (zero? (mod n p))
@@ -715,7 +715,7 @@
    #+END_SRC
 
 
-   #+BEGIN_SRC clojure
+   #+BEGIN_SRC clojure :exports source
    (defn count-divisors
      ([n] (count-divisors n (primes)))
      ([n primes]
@@ -730,7 +730,7 @@
    bottleneck is checking a lot of primes, which are not generated all that
    fast (due to the non-optimal solution of problems 7 and 10).
 
-   #+BEGIN_SRC clojure
+   #+BEGIN_SRC clojure :exports source
    (let [primes (primes)]
      (->> (triangulars)
           (filter #(> (count-divisors % primes) 500))
@@ -745,7 +745,7 @@
    assume that the largest prime-factor is no more than 100, it runs very
    quickly and produces the correct answer.
 
-   #+BEGIN_SRC clojure
+   #+BEGIN_SRC clojure :exports source
    (let [primes (reduce sieve [2] (range 3 100))]
      (->> (triangulars)
           (filter #(> (count-divisors % primes) 500))
