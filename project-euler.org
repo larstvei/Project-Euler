@@ -699,10 +699,15 @@
 
    to be able to get every triangular from a given number $n$.
 
+   #+BEGIN_SRC clojure :exports sourrce
+   (defn triangular [n]
+     (/ (+ (* n n) n) 2))
+   #+END_SRC
+
    #+BEGIN_SRC clojure :exports source
    (defn triangulars
      ([] (triangulars 1))
-     ([n] (triangulars (/ (+ (* n n) n) 2) (inc n)))
+     ([n] (triangulars (triangular n) (inc n)))
      ([n i] (cons n (lazy-seq (triangulars (+ n i) (inc i))))))
    #+END_SRC
 
