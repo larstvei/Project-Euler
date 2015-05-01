@@ -1046,7 +1046,7 @@
 
 ** Solution
 
-   Luckily ~clojure.pprint~ has an implementation of Common Lisp's excellent
+   Luckily, ~clojure.pprint~ has an implementation of Common Lisp's excellent
    function ~format~, called ~cl-format~. It allows us to get a number written
    out in words using the format directive ="~r"=. It, sadly, does not make use
    of the word "and", so we have to compensate for the ones missing.
