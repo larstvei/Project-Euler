@@ -951,20 +951,56 @@
    837799
    #+END_EXAMPLE
 
-* COMMENT [[https://projecteuler.net/problem%3D15][Problem 15: Lattice paths]]
+* [[https://projecteuler.net/problem%3D15][Problem 15: Lattice paths]]
 
 
-Starting in the top left corner of a 2×2 grid, and only being able to
-move to the right and down, there are exactly 6 routes to the bottom
-right corner.
+  Starting in the top left corner of a 2×2 grid, and only being able to move to
+  the right and down, there are exactly 6 routes to the bottom right corner.
 
-#+BEGIN_HTML
-  <div style="text-align:center;">
-#+END_HTML
+  #+BEGIN_CENTER
+   [[http://projecteuler.net/project/images/p015.gif]]
+  #+END_CENTER
 
-[[http://projecteuler.net/project/images/p015.gif]]
+  How many such routes are there through a 20×20 grid?
 
-How many such routes are there through a 20×20 grid?
+** Solution
+
+   We could write a recursive function that calculates this, using memoization
+   like above. Without memoization this takes an unreasonable amount of time
+   (meaning I haven't bother waiting for it to terminate).
+
+   #+BEGIN_SRC clojure :exports source
+   (def lattice
+     (memoize
+      (fn [n m]
+        (if (or (zero? n) (zero? m))
+          1
+          (+ (lattice (dec n) m) (lattice n (dec m)))))))
+   #+END_SRC
+
+   Calling it takes about two milliseconds.
+
+   #+BEGIN_SRC clojure
+   (lattice 20 20)
+   #+END_SRC
+
+   But for this problem, we don't really need a recursive function, we can
+   solve it analytically. Every lattice path of a $n×n$ grid has length
+   $2n$. If we choose to steer right $n$ times, we will be forced to go down
+   the next $n$ steps in order to reach the destination. So we can look at this
+   as we are making $n$ choices in a path that is $2n$ long. So the problem can
+   be expressed mathematically like so.
+
+   \[ \binom{40}{20} = \frac{40!}{20!(40-20)!} = \frac{40!}{20!20!} =
+      \frac{40 \cdot 39 \cdots 21} {20 \cdot 19 \cdots 1} \]
+
+   #+BEGIN_SRC clojure
+   (/ (apply *' (range 21 41))
+      (apply *' (range 1 21)))
+   #+END_SRC
+
+   #+RESULTS:
+   : 137846528820N
 
 * COMMENT [[https://projecteuler.net/problem%3D16][Problem 16: Power digit sum]]
 
