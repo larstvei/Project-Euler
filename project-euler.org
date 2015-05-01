@@ -965,7 +965,7 @@
   the right and down, there are exactly 6 routes to the bottom right corner.
 
   #+BEGIN_CENTER
-   [[http://projecteuler.net/project/images/p015.gif]]
+  [[http://projecteuler.net/project/images/p015.gif]]
   #+END_CENTER
 
   How many such routes are there through a 20×20 grid?
