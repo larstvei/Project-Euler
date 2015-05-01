@@ -1029,20 +1029,43 @@
    (->> (exp 2N 1000) (str) (map #(Character/getNumericValue %)) (apply +))
    #+END_SRC
 
-* COMMENT [[https://projecteuler.net/problem%3D17][Problem 17: Number letter counts]]
+* [[https://projecteuler.net/problem%3D17][Problem 17: Number letter counts]]
 
 
-If the numbers 1 to 5 are written out in words: one, two, three, four,
-five, then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
+  If the numbers 1 to 5 are written out in words: one, two, three, four, five,
+  then there are 3 + 3 + 5 + 4 + 4 = 19 letters used in total.
 
-If all the numbers from 1 to 1000 (one thousand) inclusive were written
-out in words, how many letters would be used?
+  If all the numbers from 1 to 1000 (one thousand) inclusive were written out
+  in words, how many letters would be used?
 
-\\
-*NOTE:* Do not count spaces or hyphens. For example, 342 (three hundred
-and forty-two) contains 23 letters and 115 (one hundred and fifteen)
-contains 20 letters. The use of "and" when writing out numbers is in
-compliance with British usage.
+
+  *NOTE:* Do not count spaces or hyphens. For example, 342 (three hundred and
+  forty-two) contains 23 letters and 115 (one hundred and fifteen) contains 20
+  letters. The use of "and" when writing out numbers is in compliance with
+  British usage.
+
+** Solution
+
+   Luckily ~clojure.pprint~ has an implementation of Common Lisp's excellent
+   function ~format~, called ~cl-format~. It allows us to get a number written
+   out in words using the format directive ="~r"=. It, sadly, does not make use
+   of the word "and", so we have to compensate for the ones missing.
+
+   Number between 1 and 99 will not contain the word "and", and neither will
+   every hundredth word. So given $n$ words and adding an "and" for every word,
+   we would have added $99 + \frac{n}{100}$ "and"s more than we should
+   have. This is assuming that $n > 99$.
+
+   #+BEGIN_SRC clojure
+   (let [n 1000
+         nums (range 1 (inc n))
+         format (s/join (repeat n "~r" ))
+         ands (* 3 (- n 99 (int (/ n 100))))]
+     (-> (apply (partial cl-format nil format) nums)
+         (s/replace #"[\W]" "")
+         (count)
+         (+ ands)))
+   #+END_SRC
 
 * COMMENT [[https://projecteuler.net/problem%3D18][Problem 18: Maximum path sum I]]
 
