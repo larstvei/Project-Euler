@@ -1,6 +1,6 @@
 #+TITLE: Project Euler
 #+AUTHOR: Lars Tveito
-#+OPTIONS: toc:2 num:nil H:4 tex:imagemagick
+#+OPTIONS: toc:2 num:nil H:4
 #+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1"/>
 #+HTML_HEAD: <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
 #+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/style.css" />
