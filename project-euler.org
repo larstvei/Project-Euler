@@ -2583,12 +2583,40 @@ largest value of /x/ is obtained.
   would take over twenty billion years to check them all. There is an efficient
   algorithm to solve it. ;o)
 
+** Solution
 
-*NOTE:* This is a much more difficult version of [[problem=18][Problem
-18]]. It is not possible to try every route to solve this problem, as
-there are 2^{99} altogether! If you could check one trillion (10^{12})
-routes every second it would take over twenty billion years to check
-them all. There is an efficient algorithm to solve it. ;o)
+   We need to optimize out solution from problem 18 to be a able to find the
+   maximum path of this triangle. The trick is simply to memoize the function
+   from problem 18.
+
+   #+BEGIN_SRC clojure :exports source
+   (def maximum-path-sum
+     (memoize
+      (fn ([triangle] (maximum-path-sum (vec (map vec triangle)) 0 0))
+        ([triangle i j]
+         (if (< j (count triangle))
+           (let [row (triangle j)
+                 left (maximum-path-sum triangle i (inc j))
+                 right (maximum-path-sum triangle (inc i) (inc j))]
+             (+ (row i) (max left right)))
+           0)))))
+   #+END_SRC
+
+   Also we have to read the ~triangle.txt~ file. If transform numbers like ~03~
+   to ~3~ and enclose the text with brackets, we can simply use ~read-string~
+   to get a vector that we can pass to ~seq->triangle~.
+
+   #+BEGIN_SRC clojure
+   (let [text (-> (io/file (io/resource "triangle.txt"))
+                  (slurp) (s/replace #"0(\d)" "$1"))
+         rows (count (s/split-lines text))
+         nums (read-string (str "[" text "]"))
+         triangle (seq->triangle rows nums)]
+     (maximum-path-sum triangle))
+   #+END_SRC
+
+   #+RESULTS:
+   : 7273
 
 * COMMENT [[https://projecteuler.net/problem%3D68][Problem 68: Magic 5-gon ring]]
 
