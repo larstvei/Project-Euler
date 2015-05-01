@@ -43,14 +43,16 @@
      :url ""
      :license {:name ""
                :url ""}
-     :dependencies [[org.clojure/clojure "1.6.0"]])
+     :dependencies [[org.clojure/clojure "1.6.0"]]
+     :resource-paths ["resources"])
    #+END_SRC
 
    #+BEGIN_SRC clojure :exports source
    (ns project-euler.core
      (:require [clojure.core.reducers :as r]
                [clojure.string :as s]
-               [clojure.core.logic :refer :all]))
+               [clojure.pprint :refer [cl-format]]
+               [clojure.java.io :as io]))
    #+END_SRC
 
 * [[https://projecteuler.net/problem%3D1][Problem 1: Multiples of 3 and 5]]
