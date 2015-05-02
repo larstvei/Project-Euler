@@ -43,7 +43,8 @@
      :url ""
      :license {:name ""
                :url ""}
-     :dependencies [[org.clojure/clojure "1.6.0"]]
+     :dependencies [[org.clojure/clojure "1.6.0"]
+                    [clj-time "0.9.0"]]
      :resource-paths ["resources"])
    #+END_SRC
 
