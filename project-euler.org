@@ -1218,7 +1218,24 @@
 
   Find the sum of the digits in the number 100!
 
+** Solution
 
+   The factorial function can easily be defined using ~reduce~. Note that ~*'~
+   is used in favor of ~*~ for arbitrary precision.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn factorial [n]
+     (reduce *' (range 1 (inc n))))
+   #+END_SRC
+
+   Now we can just reuse the ~sum-digits~ from problem 16.
+
+   #+BEGIN_SRC clojure
+   (sum-digits (factorial 100))
+   #+END_SRC
+
+   #+RESULTS:
+   : 648
 
 
 
