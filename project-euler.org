@@ -1033,8 +1033,18 @@
    character. After doing so we can simply sum the digits.
 
    #+BEGIN_SRC clojure
-   (->> (exp 2N 1000) (str) (map #(Character/getNumericValue %)) (apply +))
+   (defn sum-digits [n]
+     (->> (str n) (map #(Character/getNumericValue %)) (apply +)))
    #+END_SRC
+
+   Now we can apply the functions to retrieve the answer.
+
+   #+BEGIN_SRC clojure
+   (sum-digits (exp 2N 1000))
+   #+END_SRC
+
+   #+RESULTS:
+   : 1366
 
 * [[https://projecteuler.net/problem%3D17][Problem 17: Number letter counts]]
 
