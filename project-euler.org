@@ -1119,11 +1119,11 @@
 
 ** Solution
 
-   First we need to make a triangle, preferably from a sequence, to simplify
-   how the input is given. So want to take one number, then two, but dropping
-   the previous, then three but dropping the three previous and so on. The
-   number of numbers we need to drop happens to be the triangular numbers
-   (which we examined in problem 12).
+   First we need to make a triangle, preferably from a sequence. What we want
+   to do is to take one number, then two, but dropping the previous, then three
+   but dropping the three previous and so forth. The number of numbers we need
+   to drop happens to be the triangular numbers (which we examined in problem
+   12).
 
    #+BEGIN_SRC clojure :exports source
    (defn seq->triangle [rows nums]
