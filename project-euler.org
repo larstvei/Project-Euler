@@ -1251,8 +1251,40 @@
 
   Evaluate the sum of all the amicable numbers under 10000.
 
+** Solution
 
+   First we need to sum the proper divisors of a number $n$. We can do this by
+   looking at every number smaller than $\sqrt{n}$, noting that if some number
+   $i$ is divisible by $n$, then so is $\frac{n}{i}$.
 
+   #+BEGIN_SRC clojure :exports source
+   (defn sum-divisors [n]
+     (->> (for [i (range 2 (int (Math/sqrt n)))
+                :when (zero? (mod n i))]
+            (+ i (/ n i)))
+          (apply +) (inc)))
+   #+END_SRC
+
+   It's important to notice that we don't really care about amicable pairs,
+   just amicable numbers. So checking all pairs is not at all necessary. Given
+   a number $a$, then $b = d(a)$, and $a$ is amicable iff $a \neq b$ and $a =
+   d(b)$.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn amicable? [a]
+     (let [b (sum-divisors a)]
+       (and (not (= a b)) (= a (sum-divisors b)))))
+   #+END_SRC
+
+   Then we just need to gather up amicable numbers under 10000, and take the
+   sum.
+
+   #+BEGIN_SRC clojure
+   (apply + (for [a (range 1 10000) :when (amicable? a)] a))
+   #+END_SRC
+
+   #+RESULTS:
+   : 31626
 
 * COMMENT [[https://projecteuler.net/problem%3D22][Problem 22: Names scores]]
 
