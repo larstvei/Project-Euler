@@ -53,7 +53,10 @@
      (:require [clojure.core.reducers :as r]
                [clojure.string :as s]
                [clojure.pprint :refer [cl-format]]
-               [clojure.java.io :as io]))
+               [clojure.java.io :as io]
+               [clj-time.core :refer [date-time months]]
+               [clj-time.periodic :refer [periodic-seq]]
+               [clj-time.predicates :refer [sunday?]]))
    #+END_SRC
 
 * [[https://projecteuler.net/problem%3D1][Problem 1: Multiples of 3 and 5]]
