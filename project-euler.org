@@ -1300,6 +1300,34 @@
 
   What is the total of all the name scores in the file?
 
+** Solution
+
+   If we take a character and subtract the value we get from ~(dec \A)~, we
+   retrieve the alphabetical value. We can simply ~map~ over the string and sum
+   the values to get the string score.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn str-score [str]
+     (apply + (map #(- (int %) (dec (int \A))) str)))
+   #+END_SRC
+
+   Seeing that Clojure treats commas and newlines as white space, and every
+   name is a string, we can just place brackets around the content of the file
+   and read it to get a vector. After sorting this, we can use ~map-indexed~
+   and multiply with the index (incremented by one) to get the name
+   score. Summing this gives us the correct answer!
+
+   #+BEGIN_SRC clojure
+   (let [file (io/file (io/resource "names.txt"))]
+     (->> (str "[" (slurp file) "]")
+          (read-string) (sort)
+          (map-indexed (fn [i s] (* (inc i) (str-score s))))
+          (apply +)))
+   #+END_SRC
+
+   #+RESULTS:
+   : 871198282
+
 * COMMENT [[https://projecteuler.net/problem%3D23][Problem 23: Non-abundant sums]]
 
 
