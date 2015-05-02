@@ -1193,7 +1193,6 @@
 
 ** Solution
 
-* COMMENT [[https://projecteuler.net/problem%3D20][Problem 20: Factorial digit sum]]
    Instead of thinking even the slightest about this problem, we can use the
    [[https://github.com/clj-time/clj-time][clj-time]] library.
 
