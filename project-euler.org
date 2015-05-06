@@ -1356,6 +1356,58 @@
   Find the sum of all the positive integers which cannot be written as the sum
   of two abundant numbers.
 
+** Solution
+
+   This one gave me a lot of headache, mostly because I couldn't make it
+   fast. The first problem was that the ~sum-divisors~ from problem 21 was
+   buggy. It did not handle square numbers, but this went unnoticed (because we
+   got the correct answer anyways). Here it's rewritten, using ~reduce~ (which
+   doesn't affect performance much), where the main difference lies in adding
+   the root, if the number is a perfect square.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn sum-divisors [n]
+     (let [root (Math/sqrt n)
+           add-div (fn [acc i]
+                     (if (zero? (mod n i)) (-> i (+ (/ n i)) (+ acc)) acc))
+           init (if (== root (int root)) (inc root) 1)]
+       (reduce add-div init (range 2 root))))
+   #+END_SRC
+
+   Now, writing an abundant predicate is a piece of cake.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn abundant? [n]
+     (< n (sum-divisors n)))
+   #+END_SRC
+
+   Now we can gather up the abundant sums and add these together, and subtract
+   it from the sum we get from summing 1 to 28123 (which happens to be the
+   28123th triangular number).
+
+   #+BEGIN_SRC clojure :exports source
+   (let [lim 28123
+         abundants (filter abundant? (range 12 (inc lim)))
+         sum-of-abundants (for [a abundants
+                                b (drop-while #(< % a) abundants)
+                                :let [sum (+ a b)]
+                                :while (<= sum lim)] sum)]
+     (- (triangular lim)
+        (apply + (reduce conj #{} sum-of-abundants))))
+   #+END_SRC
+
+   #+BEGIN_EXAMPLE
+   4179871
+   #+END_EXAMPLE
+
+   This takes about 4 seconds to execute, which isn't half bad (comparing with
+   other Clojure solutions I've found after solving this), but it seems like
+   there is room for optimization.
+
+   The main area I want to explore further is to avoid generating duplicate
+   sums, or at least make removing them less costly. ~sum-of-abundants~ has
+   12148815 elements, but only 26667 distinct ones, and this should not be
+   necessary.
 
 
 
