@@ -490,7 +490,7 @@
    two of the unknowns. From the two equations we can derive that
 
    #+BEGIN_CENTER
-   $$a + b + \sqrt{a^2 + b^2} = 1000$$
+   $a + b + \sqrt{a^2 + b^2} = 1000$
    #+END_CENTER
 
    This means we can loop through 1 < a < 1000 and a < b < 1000, which takes
