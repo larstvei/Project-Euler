@@ -1424,9 +1424,77 @@
   What is the millionth lexicographic permutation of the digits 0, 1, 2, 3, 4,
   5, 6, 7, 8 and 9?
 
+** Solution
 
+   First I found an algorithm for generating the next lexicographic permutation
+   of a sequence on [[http://en.wikipedia.org/wiki/Permutation#Generation_in_lexicographic_order][Wikipedia]] which is stated here.
 
+   - Find the largest index ~k~ such that ~a[k]~ < ~a[k + 1]~. If no such index
+     exists, the permutation is the last permutation.
+   - Find the largest index ~l~ greater than ~k~ such that ~a[k]~ < ~a[l]~.
+   - Swap the value of ~a[k]~ with that of ~a[l]~.
+   - Reverse the sequence from ~a[k + 1]~ up to and including the final element
+     ~a[n]~.
 
+   This is a pretty direct translation of the description above. Note that it
+   crashes if you try to fetch the $n! + 1$ permutation of a sequence of length
+   $n$.
+
+  #+BEGIN_SRC clojure :exports source
+  (defn next-lex-permutation [v]
+    (let [n (dec (count v))
+          k (loop [k (dec n)] (if (< (v k) (v (inc k))) k (recur (dec k))))
+          l (loop [l n] (if (< (v k) (v l)) l (recur (dec l))))
+          v (assoc v k (v l) l (v k))
+          suffix (reverse (subvec v (inc k)))]
+      (vec (concat (subvec v 0 (inc k)) suffix))))
+   #+END_SRC
+
+   We can simply iterate this function, feed it the sequence, and grab the
+   999999th permutation (because the original vector is not included in the
+   result of iterate). It runs in a couple of seconds.
+
+   #+BEGIN_SRC clojure :exports source
+   (let [n (dec 1e6)
+         digits [0 1 2 3 4 5 6 7 8 9]]
+     (apply str (nth (iterate next-lex-permutation digits) n)))
+   #+END_SRC
+
+   #+BEGIN_EXAMPLE
+   2783915460
+   #+END_EXAMPLE
+
+   But we can do better. We know that a sequence of size $n$ has $n!$
+   permutations. We also know that the (lexicographically) smallest
+   permutations will start with 0, and that there must be $9!$ permutations
+   that will start with 0 (because there are 9 elements left in the sequence
+   when 0 is taken out). The next $9!$ will start with 1 and the $9!$ after
+   that will start with 2 and so on. So the millionth permutation must start
+   with 2 because $2 \cdot 9! < 1000000 < 3 \cdot 9!$.
+
+   Knowing this, we can place the 2 at the front of the sequence, and
+   recursively apply this rule to the rest of the sequence.
+
+   #+BEGIN_SRC clojure :exports source
+   (defn nth-permutation [n v]
+     (when (not (empty? v))
+       (let [size (count v)
+             permutations (factorial (dec size))
+             candidates (map-indexed (fn [i f] [i (> n (* i permutations))]) v)
+             quotient  (->> candidates (take-while second) (last) first)]
+         (conj (nth-permutation (- n (* permutations quotient))
+                                (vec (remove #(= % (v quotient)) v)))
+               (v quotient)))))
+   #+END_SRC
+
+   Getting the millionth permutation runs in less that a millisecond!
+
+   #+BEGIN_SRC clojure
+   (apply str (nth-permutation 1e6 [0 1 2 3 4 5 6 7 8 9]))
+   #+END_SRC
+
+   #+RESULTS:
+   : 2783915460
 
 * COMMENT [[https://projecteuler.net/problem%3D25][Problem 25: 1000-digit Fibonacci number]]
 
