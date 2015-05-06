@@ -10,13 +10,15 @@ body {
     position: relative;
 }
 
-a {
+h2 > a {
     color: inherit;
     text-decoration: none;
 }
 
 pre.src {
-    overflow: auto;
+    overflow: scroll;
+    word-wrap: normal;
+    white-space: pre;
 }
 
 #table-of-contents {
