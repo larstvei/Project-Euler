@@ -35,7 +35,7 @@
 ** Clojure
 
    The language I'll be using the most is [[http://clojure.org/][Clojure]]. We need a ~project.clj~
-   file in order to use [[http://leiningen.org/][Leiningen]].
+   file in order to use [[http://leiningen.org/][Leiningen]]. This is it's content:
 
    #+BEGIN_SRC clojure :exports source :tangle project.clj
    (defproject project-euler "0.1.0-SNAPSHOT"
@@ -47,6 +47,8 @@
                     [clj-time "0.9.0"]]
      :resource-paths ["resources"])
    #+END_SRC
+
+   I'll use a number of Clojure libraries, and they are required here.
 
    #+BEGIN_SRC clojure :exports source
    (ns project-euler.core
