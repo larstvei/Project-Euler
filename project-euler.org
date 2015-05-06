@@ -1270,6 +1270,8 @@
           (apply +) (inc)))
    #+END_SRC
 
+   (Note that this is buggy, but it works here; it's updated in problem 23)
+
    It's important to notice that we don't really care about amicable pairs,
    just amicable numbers. So checking all pairs is not at all necessary. Given
    a number $a$, then $b = d(a)$, and $a$ is amicable iff $a \neq b$ and $a =
