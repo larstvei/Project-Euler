@@ -1496,7 +1496,7 @@
    #+RESULTS:
    : 2783915460
 
-* COMMENT [[https://projecteuler.net/problem%3D25][Problem 25: 1000-digit Fibonacci number]]
+* [[https://projecteuler.net/problem%3D25][Problem 25: 1000-digit Fibonacci number]]
 
 
   The Fibonacci sequence is defined by the recurrence relation:
@@ -1527,6 +1527,24 @@
   What is the first term in the Fibonacci sequence to contain 1000 digits?
 
 * COMMENT [[https://projecteuler.net/problem%3D26][Problem 26: Reciprocal cycles]]
+** Solution
+
+   This is very similar to problem 2. We need to keep track of what term it is,
+   so we should keep an index. For readability a map is used (to get named
+   parameters), in favor of a vector.
+
+   To count the digits, my first thought was to use ~Math/log10~, but it could
+   not handle number with more than 200 digits. So instead ~str~ is applied to
+   the large fibonacci number, and the characters are counted.
+
+   #+BEGIN_SRC clojure
+   (->> (iterate (fn [{a :a b :b i :i}] {:a b :b (+ a b) :i (inc i)})
+                 {:a 1N :b 2 :i 0})
+        (filter (fn [{a :a}] (-> a str count (> 1000)))) first :i)
+   #+END_SRC
+
+   #+RESULTS:
+   : 4785
 
 
   A unit fraction contains 1 in the numerator. The decimal representation
