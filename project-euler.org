@@ -1619,8 +1619,32 @@
   that produces the maximum number of primes for consecutive values of n,
   starting with n = 0.
 
+** Solution
 
+   This function takes coefficients ~a~ and ~b~ as arguments, and returns a
+   function that when given an ~n~ computes n^2 + an + b.
 
+   #+BEGIN_SRC clojure :exports source
+   (defn quadratic-f [a b]
+     (fn [n]
+       (+ (* n n) (* a n) b)))
+   #+END_SRC
+
+   We'll only look at primes (and their negatives), and maximize by the number
+   of consecutive primes a given ~a~ and ~b~ generates.
+
+   #+BEGIN_SRC clojure
+   (let [candidates (take-while #(< % 1000) (primes))
+         candidates (concat candidates (map - candidates))
+         coefficients (for [a candidates b candidates] [a b])]
+     (->> coefficients
+          (map (fn [[a b]]
+                 {:product (* a b)
+                  :primes (->> (map (quadratic-f a b) (range))
+                               (take-while prime?) count)}))
+          (apply max-key :primes)
+          :product))
+   #+END_SRC
 
 * COMMENT [[https://projecteuler.net/problem%3D28][Problem 28: Number spiral diagonals]]
 
