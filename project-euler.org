@@ -1664,6 +1664,28 @@
   formed in the same way?
 
 * COMMENT [[https://projecteuler.net/problem%3D29][Problem 29: Distinct powers]]
+** Solution
+
+   We should first represent diagonals. We can see that the first four
+   diagonals are all incremented by two (following the spiral), then the next
+   four are incremented by four, then six and so on.
+
+   If we start by generating a sequence of steps, that should look something
+   like 2, 2, 2, 2, 4, 4, 4, 4, 6, 6, ... and then look at the reductions we
+   get by reducing ~+~ over this sequence, starting with 1, we should get the
+   sequence 1, 3, 5, 7, 9, 13, 17, ... The last thing we need to figure out is
+   when to stop reducing, which is when we've looked at $\lfloor\frac{n +
+   1}{2}\rfloor$ "levels" of the spiral.
+
+   #+BEGIN_SRC clojure
+   (let [n 1001]
+     (->> (range 1 (int (/ (inc n) 2)))
+          (mapcat (comp (partial repeat 4) (partial * 2)))
+          (reductions + 1) (reduce +)))
+   #+END_SRC
+
+   #+RESULTS:
+   : 669171001
 
 
   Consider all integer combinations of /a/^{/b/} for 2 ≤ /a/ ≤ 5 and 2 ≤
