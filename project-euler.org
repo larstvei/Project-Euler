@@ -2,13 +2,11 @@
 #+AUTHOR: Lars Tveito
 #+OPTIONS: toc:2 num:nil H:4
 #+HTML_HEAD: <meta name="viewport" content="width=device-width, initial-scale=1"/>
-#+HTML_HEAD: <link type="text/css" rel="stylesheet" href="css/bootstrap.min.css" />
-#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="css/style.css" />
-#+HTML_HEAD: <script type="text/javascript" src="js/jquery-2.1.3.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="js/jquery-ui.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="js/jquery.tocify.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="js/bootstrap.min.js"></script>
-#+HTML_HEAD: <script type="text/javascript" src="js/org-bootstrap.js"></script>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/htmlize.css"/>
+#+HTML_HEAD: <link rel="stylesheet" type="text/css" href="http://www.pirilampo.org/styles/readtheorg/css/readtheorg.css"/>
+#+HTML_HEAD: <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+#+HTML_HEAD: <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+#+HTML_HEAD: <script type="text/javascript" src="http://www.pirilampo.org/styles/readtheorg/js/readtheorg.js"></script>
 #+PROPERTY: header-args :exports both :tangle src/project_euler/core.clj
 
 * Introduction
